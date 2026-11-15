@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import login from './routes/login.routes.js';
+import router from './routes/login.routes.js';
 
 // Carrega as variáveis definidas no arquivo .env.
 dotenv.config();
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Registra as rotas de login e cadastro na aplicação.
-app.use("/", login);
+app.use("/", router);
 
 // Inicia o servidor e informa o endereço local no console.
 app.listen(PORT, () => {

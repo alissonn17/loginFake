@@ -1,12 +1,13 @@
 import express from 'express';
+import LoginController from '../controllers/login.controller.js';
 
 // Agrupa os endpoints relacionados à autenticação.
-const login = express.Router();
+const router = express.Router();
 
 // Endpoint para autenticar um usuário;
-login.post('/login', (req, res) => {});
+router.post('/login', LoginController.login);
 
 // Endpoint para cadastrar um usuário;
-login.post('/cadastro', (req, res) => {});
+router.post('/cadastro', LoginController.cadastro);
 
-export default login;
+export default router;
