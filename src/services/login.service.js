@@ -1,14 +1,8 @@
-import PrismaClient from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../config/prisma.js";
 
 class LoginService {
-    async login(userData){
-        try {
-            // Lógica para autenticar o usuário
-        }   catch (error) {
-            // Lida com erros de autenticação
-        }
+    async login(userData) {
+        // Lógica para autenticar o usuário
     }
 
     async cadastro(userData){

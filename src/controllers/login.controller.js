@@ -4,9 +4,14 @@ class LoginController {
     async login(req, res){
         try {
             // Lógica para autenticar o usuário
-            const loginResult = await LoginService.login(req.body);
+            await LoginService.login(req.body);
+
+            // implementar codigo aqui para verificar se o login foi bem-sucedido e retornar a resposta adequada usando o login service
+
+            return res.status(200).json({ message: "Login OK" });
         } catch (error) {
-            // Lida com erros de autenticação
+            console.error("Erro ao realizar login:", error);
+            return res.status(500).json({ message: "Erro ao realizar login" });
         }
     }
     async cadastro(req, res) {   

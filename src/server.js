@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Registra as rotas de login e cadastro na aplicação.
-app.use("/", router);
+app.use("/loginfake", router);
 
 // Inicia o servidor e informa o endereço local no console.
 app.listen(PORT, () => {
