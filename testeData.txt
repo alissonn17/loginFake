@@ -1,0 +1,20 @@
+Criando conta
+
+http://localhost:3000/loginfake/cadastro
+
+{
+    "name": "Bruno",
+    "birthDate": "2000-05-10",
+    "email": "bruno@email.com",
+    "cellphone": "11999999999",
+    "senha": "123456"
+}
+
+fazendo login
+
+http://localhost:3000/loginfake/login
+
+{
+    "email": "bruno@email.com",
+    "senha": "123456"
+}

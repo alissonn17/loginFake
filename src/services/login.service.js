@@ -1,75 +1,66 @@
+
 import prisma from "../config/prisma.js";
 import bcrypt from "bcrypt";
 
 class LoginService {
+
     async login(userData) {
-        // Lógica para autenticar o usuário
-        try{
-            const { email, senha } = userData;
+        const { email, senha } = userData;
 
-            // Busca o usuário pelo email
-            const usuario = await prisma.usuario.findUnique({
-                where: { email }
-            });
+        const usuario = await prisma.user.findUnique({
+            where: { email }
+        });
 
-            // Caso não encontre o usuário, lança um erro
-            if (!usuario) {
-                throw new Error("Usuário não encontrado");
-            }
-
-            // Compara a senha informada com a senha armazenada
-            const senhaValida = await bcrypt.compare(
-                senha,
-                usuario.senha
-            );
-
-            if (!senhaValida) {
-                throw new Error("Senha incorreta");
-            }
-
-            return usuario;
+        if (!usuario) {
+            throw new Error("Usuário ou senha incorretos");
         }
-        
 
-        catch (error) {
-            throw error;
+        const senhaValida = await bcrypt.compare(
+            senha,
+            usuario.senha
+        );
+
+        if (!senhaValida) {
+            throw new Error("Usuário ou senha incorretos");
         }
+
+        // Retorna somente informações públicas
+        const { senha: _, ...usuarioPublico } = usuario;
+
+        return usuarioPublico;
     }
 
-    async cadastro(userData){
-        try {
-            // Lógica para cadastrar o usuário
-            const { name, birthDate, email, cellphone, senha } = userData;
+    async cadastro(userData) {
+        const { name, birthDate, email, cellphone, senha } = userData;
 
-            // Verifica se o usuário já existe
-            const usuarioExistente = await prisma.usuario.findUnique({
-                where: { email }
-            });
+        const usuarioExistente = await prisma.user.findUnique({
+            where: { email }
+        });
 
-            if (usuarioExistente) {
-                throw new Error("Usuário já cadastrado");
-            }
-
-            // Criptografa a senha antes de salvar
-            const senhaCriptografada = await bcrypt.hash(senha, 10);
-
-            // Cria o novo usuário no banco de dados
-            const novoUsuario = await prisma.usuario.create({
-                data: {
-                    name,
-                    birthDate,
-                    email,
-                    cellphone,
-                    senha: senhaCriptografada
-                }
-            });
-
-            return novoUsuario;
-
-        }   catch (error) {
-            // Lida com erros de cadastro
-            throw error;
+        if (usuarioExistente) {
+            throw new Error("Usuário já cadastrado");
         }
+
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        const novoUsuario = await prisma.user.create({
+            data: {
+                name,
+                birthDate: new Date(birthDate),
+                email,
+                cellphone,
+                senha: senhaCriptografada
+            },
+            select: {
+                id: true,
+                name: true,
+                birthDate: true,
+                email: true,
+                cellphone: true
+            }
+        });
+
+        return novoUsuario;
     }
 }
 

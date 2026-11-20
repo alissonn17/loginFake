@@ -21,11 +21,14 @@
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
     "nodemon": "^3.1.14",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^8.1.2",
     "@babel/node": "^8.1.2",
+    "@prisma/prisma7": "^7.10.1",
     "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
     "prisma": "^8.0.0-rc.34"
