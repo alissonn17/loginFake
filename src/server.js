@@ -9,19 +9,43 @@ dotenv.config();
 
 const app = express();
 
-// Usa a porta configurada ou, se não houver, a porta 3000.
 const PORT = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === "production";
 
-// Permite que o servidor interprete corpos de requisições em JSON.
-app.use(express.json());
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL não configurada");
+}
 
-// Documentação Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
+app.use(express.json({ limit: "16kb" }));
 
-// Registra as rotas de login e cadastro na aplicação.
+if (!isProduction) {
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
+
 app.use("/loginfake", router);
 
-// Inicia o servidor e informa o endereço local no console.
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
 });
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+function shutdown(signal) {
+  console.log(`${signal} recebido. Encerrando o servidor...`);
+
+  server.close((error) => {
+    if (error) {
+      console.error("Erro ao encerrar o servidor:", error);
+      process.exit(1);
+    }
+
+    process.exit(0);
+  });
+}
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));

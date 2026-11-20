@@ -51,6 +51,28 @@ O servidor será iniciado em:
 http://localhost:3000
 ```
 
+## Execução em produção
+
+Defina as variáveis de ambiente no provedor de hospedagem:
+
+```env
+PORT=3000
+NODE_ENV=production
+DATABASE_URL="sua-url-do-postgres"
+```
+
+Inicie a aplicação:
+
+```bash
+npm start
+```
+
+Em produção, a documentação Swagger fica desativada. O endpoint de verificação de saúde fica disponível em:
+
+```text
+GET /health
+```
+
 ## Documentação Swagger
 
 Acesse:
