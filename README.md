@@ -58,8 +58,11 @@ Defina as variáveis de ambiente no provedor de hospedagem:
 ```env
 PORT=3000
 NODE_ENV=production
+CORS_ORIGINS=https://seu-frontend.com,http://127.0.0.1:5500
 DATABASE_URL="sua-url-do-postgres"
 ```
+
+Configure `CORS_ORIGINS` com as origens exatas do frontend, separadas por vírgula. Para testar com o Live Server, inclua `http://127.0.0.1:5500`. Em produção, a API só aceita as origens informadas nessa variável.
 
 Inicie a aplicação:
 
@@ -88,7 +91,7 @@ A documentação permite visualizar os endpoints, parâmetros e respostas da API
 ### Cadastrar usuário
 
 ```http
-POST /loginfake/cadastro
+POST /cadastro
 ```
 
 Corpo da requisição:

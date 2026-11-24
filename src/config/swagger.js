@@ -86,6 +86,12 @@ const options = {
                         user: { $ref: "#/components/schemas/Usuario" }
                     }
                 },
+                LogoutResponse: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string", example: "Logout realizado com sucesso" }
+                    }
+                },
                 ErrorResponse: {
                     type: "object",
                     properties: {

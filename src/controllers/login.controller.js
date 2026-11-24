@@ -2,6 +2,12 @@ import LoginService from "../services/login.service.js";
 
 class LoginController {
 
+    logout(req, res) {
+        return res.status(200).json({
+            message: "Logout realizado com sucesso"
+        });
+    }
+
     async login(req, res) {
         try {
             const loginResult = await LoginService.login(req.body);

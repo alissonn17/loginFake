@@ -35,6 +35,23 @@ router.post('/cadastro', LoginController.cadastro);
 
 /**
  * @swagger
+ * /logout:
+ *   post:
+ *     tags:
+ *       - Autenticação
+ *     summary: Encerra a sessão do usuário
+ *     responses:
+ *       200:
+ *         description: Logout realizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/LogoutResponse'
+ */
+router.post('/logout', LoginController.logout);
+
+/**
+ * @swagger
  * /login:
  *   post:
  *     tags:

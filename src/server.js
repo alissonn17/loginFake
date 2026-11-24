@@ -11,6 +11,15 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === "production";
+const localOrigins = ["http://localhost:5500", "http://127.0.0.1:5500"];
+const configuredOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = new Set([
+  ...configuredOrigins,
+  ...(!isProduction ? localOrigins : [])
+]);
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL não configurada");
@@ -18,6 +27,22 @@ if (!process.env.DATABASE_URL) {
 
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
+app.use((req, res, next) => {
+  const origin = req.get("Origin");
+
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.vary("Origin");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  }
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
 app.use(express.json({ limit: "16kb" }));
 
 
