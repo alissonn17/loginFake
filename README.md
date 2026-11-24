@@ -78,7 +78,7 @@ GET /health
 Acesse:
 
 ```text
-http://localhost:3000/api-docs
+https://loginfake.onrender.com/api-docs
 ```
 
 A documentação permite visualizar os endpoints, parâmetros e respostas da API.

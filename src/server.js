@@ -20,11 +20,10 @@ app.disable("x-powered-by");
 app.set("trust proxy", 1);
 app.use(express.json({ limit: "16kb" }));
 
-if (!isProduction) {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-}
 
-app.use("/loginfake", router);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(router);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
