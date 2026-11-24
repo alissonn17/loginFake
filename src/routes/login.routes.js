@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /loginfake/cadastro:
+ * /cadastro:
  *   post:
  *     tags:
  *       - Autenticação
@@ -35,7 +35,7 @@ router.post('/cadastro', LoginController.cadastro);
 
 /**
  * @swagger
- * /loginfake/login:
+ * /login:
  *   post:
  *     tags:
  *       - Autenticação
